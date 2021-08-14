@@ -35,32 +35,32 @@ namespace SimpleBotCore.Logic
                     $"vejo que cadastrou sua cor preferida como {user.Cor}");
             }
 
-            //if (user.Nome == null)
-            //{
-            //    await WriteAsync("Qual o seu nome?");
+            if (user.Nome == null)
+            {
+                await WriteAsync("Qual o seu nome?");
 
-            //    user.Nome = await ReadAsync();
+                user.Nome = await ReadAsync();
 
-            //    _userProfile.AtualizaNome(UserId, user.Nome);
-            //}
+                _userProfile.AtualizaNome(UserId, user.Nome);
+            }
 
-            //if (user.Idade == 0)
-            //{
-            //    await WriteAsync("Qual a sua idade?");
+            if (user.Idade == 0)
+            {
+                await WriteAsync("Qual a sua idade?");
 
-            //    user.Idade = Int32.Parse(await ReadAsync());
+                user.Idade = Int32.Parse(await ReadAsync());
 
-            //    _userProfile.AtualizaIdade(UserId, user.Idade);
-            //}
+                _userProfile.AtualizaIdade(UserId, user.Idade);
+            }
 
-            //if (user.Cor == null)
-            //{
-            //    await WriteAsync("Qual a sua cor preferida?");
+            if (user.Cor == null)
+            {
+                await WriteAsync("Qual a sua cor preferida?");
 
-            //    user.Cor = await ReadAsync();
+                user.Cor = await ReadAsync();
 
-            //    _userProfile.AtualizaCor(UserId, user.Cor);
-            //}
+                _userProfile.AtualizaCor(UserId, user.Cor);
+            }
 
             await WriteAsync($"{user.Nome}, bem vindo ao Oraculo. Você tem direito a 3 perguntas");
 
