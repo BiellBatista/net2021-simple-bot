@@ -2,22 +2,21 @@
 using Microsoft.Bot.Schema;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SimpleBotCore.Bot
 {
     public abstract class BotDialog
     {
-        readonly static ChannelAccount BotAccount = new ChannelAccount(id: "bot01", name: "Bot", role: RoleTypes.Bot);
+        private static readonly ChannelAccount BotAccount = new ChannelAccount(id: "bot01", name: "Bot", role: RoleTypes.Bot);
 
-        string _userId;
-        ChannelAccount _userAccount;
-        ConversationAccount _conversationid;
-        Uri _serviceUrl;
-        BotDialogMessages _messages = new BotDialogMessages();
+        private string _userId;
+        private ChannelAccount _userAccount;
+        private ConversationAccount _conversationid;
+        private Uri _serviceUrl;
+        private BotDialogMessages _messages = new BotDialogMessages();
 
-        public string UserId 
+        public string UserId
         {
             get { return _userId; }
         }
@@ -37,9 +36,9 @@ namespace SimpleBotCore.Bot
             _messages.Add(activity.Text);
         }
 
-        async Task RunBotConversation()
+        private async Task RunBotConversation()
         {
-            while(true)
+            while (true)
             {
                 try
                 {
@@ -64,7 +63,7 @@ namespace SimpleBotCore.Bot
                 conversation: _conversationid,
                 recipient: _userAccount,
                 from: BotAccount);
-            
+
             return connector.Conversations.ReplyToActivityAsync(msg);
         }
 
@@ -73,14 +72,14 @@ namespace SimpleBotCore.Bot
             return _messages.ReadAsync();
         }
 
-        class BotDialogMessages
+        private class BotDialogMessages
         {
-            Queue<string> _messages = new();
-            Queue<TaskCompletionSource<string>> _queuedRequests = new();
+            private Queue<string> _messages = new();
+            private Queue<TaskCompletionSource<string>> _queuedRequests = new();
 
             public void Add(string message)
             {
-                lock(_messages)
+                lock (_messages)
                 {
                     if (_queuedRequests.Count == 0)
                     {
@@ -91,13 +90,12 @@ namespace SimpleBotCore.Bot
                         var request = _queuedRequests.Dequeue();
                         request.SetResult(message);
                     }
-                
                 }
             }
 
             public Task<string> ReadAsync()
             {
-                lock(_messages)
+                lock (_messages)
                 {
                     if (_messages.Count > 0)
                     {
@@ -115,7 +113,7 @@ namespace SimpleBotCore.Bot
 
             public void Clean()
             {
-                lock(_messages)
+                lock (_messages)
                 {
                     _messages.Clear();
                 }

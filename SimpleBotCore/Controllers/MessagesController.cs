@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Logging;
 using SimpleBotCore.Bot;
-using SimpleBotCore.Logic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SimpleBotCore.Controllers
@@ -15,7 +9,7 @@ namespace SimpleBotCore.Controllers
     [Route("api/[controller]")]
     public class MessagesController : ControllerBase
     {
-        static IBotDialogHub _botHub;
+        private static IBotDialogHub _botHub;
 
         public MessagesController(IBotDialogHub botHub)
         {
