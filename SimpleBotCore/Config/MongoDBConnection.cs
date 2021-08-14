@@ -2,16 +2,17 @@
 {
     public class MongoDBConnection
     {
-        public string Database { get; set; } = "Chatbot";
-        public string Host { get; set; } = "localhost";
-        public int Port { get; set; } = 27017;
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Write { get; set; }
-        public bool RetryWrites { get; set; } = true;
-        public bool UseSSL { get; set; }
         public string AuthSource { get; set; }
+        public string Database { get; set; } = "Chatbot";
+        public bool? Enabled { get; set; }
+        public string Host { get; set; } = "localhost";
+        public string Password { get; set; }
+        public int Port { get; set; } = 27017;
         public string ReplicaSet { get; set; }
+        public bool RetryWrites { get; set; } = true;
+        public string Username { get; set; }
+        public bool UseSSL { get; set; }
+        public string Write { get; set; }
 
         public string GetConnectionDefault()
         {

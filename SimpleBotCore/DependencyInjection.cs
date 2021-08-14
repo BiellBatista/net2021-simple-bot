@@ -7,22 +7,33 @@ namespace SimpleBotCore
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddDependencies(this IServiceCollection services)
+        public static IServiceCollection AddDependencies(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddMongoDBConfiguration();
-
-            services.AddSingleton<IQuestionRepository, QuestionMongoDBRepository>();
+            services.AddMongoDBConfiguration(configuration);
 
             return services;
         }
 
-        private static IServiceCollection AddMongoDBConfiguration(this IServiceCollection services)
+        private static IServiceCollection AddMongoDBConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
+            bool mongoEnabled;
+
+            bool.TryParse(configuration.GetSection("ConnectionStrings:MongoDBConnection:Enabled").Value, out mongoEnabled);
+
             services.AddOptions<MongoDBConnection>()
                     .Configure<IConfiguration>((settings, configuration) =>
                     {
                         configuration.GetSection("ConnectionStrings:MongoDBConnection").Bind(settings);
                     });
+
+            if (mongoEnabled)
+            {
+                services.AddSingleton<IQuestionRepository, QuestionRepository>();
+            }
+            else
+            {
+                services.AddSingleton<IQuestionRepository, QuestionMockRepository>();
+            }
 
             return services;
         }

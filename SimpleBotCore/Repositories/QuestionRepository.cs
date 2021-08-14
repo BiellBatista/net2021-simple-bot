@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimpleBotCore.Repositories
 {
-    public class QuestionMongoDBRepository : IQuestionRepository
+    public class QuestionRepository : IQuestionRepository
     {
         private readonly IMongoClient _client;
         private readonly IMongoCollection<Question> _questionCollection;
@@ -15,7 +15,7 @@ namespace SimpleBotCore.Repositories
         private readonly MongoDBConnection _config;
         private readonly MongoClientSettings _settings;
 
-        public QuestionMongoDBRepository(IOptions<MongoDBConnection> options)
+        public QuestionRepository(IOptions<MongoDBConnection> options)
         {
             _config = options.Value;
 
